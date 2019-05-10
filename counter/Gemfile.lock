@@ -6,7 +6,6 @@ GEM
     rack (2.0.7)
     rack-protection (2.0.5)
       rack
-    redis (4.1.1)
     sinatra (2.0.5)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -19,7 +18,6 @@ PLATFORMS
 
 DEPENDENCIES
   puma
-  redis
   sinatra
 
 BUNDLED WITH
