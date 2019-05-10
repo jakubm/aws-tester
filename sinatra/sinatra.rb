@@ -23,7 +23,7 @@ get '/' do
   counter = HTTParty.get("http://#{counterhost}:#{counterport}/").body
   output = "<pre>counter: #{counter}</pre><pre>"
   counter = 0
-  conn.exec("select id, t from test_data order by id desc limit 25")  do |result|
+  conn.exec("select id, t from test_data order by id desc limit 25") do |result|
     result.each do |row|
       counter += 1
       output += "#{counter}  %-7d %s\n" % row.values_at('id', 't')

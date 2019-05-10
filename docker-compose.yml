@@ -1,13 +1,17 @@
 version: '3'
 services:
+  proxy:
+    restart: always
+    build:
+      context: ./proxy
+    ports:
+      - '80:80'
   sinatra:
     build:
       context: ./sinatra
-    ports:
-      - "8080:8080"
     environment:
       - PGHOST=192.168.100.166
-      - PGDATABASE=oag
+      - PGDATABASE=postgres
       - PGUSER=jakub
       - PGPASSWORD=password
       - PORT=8080
