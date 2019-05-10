@@ -12,3 +12,13 @@ services:
       - PGPASSWORD=password
       - PORT=8080
       - APP_ENV=production
+      - COUNTERHOST=counter
+      - COUNTERPORT=8081
+  counter:
+    build:
+      context: ./counter
+    ports:
+      - "8081:8081"
+    environment:
+      - PORT=8081
+      - APP_ENV=production
