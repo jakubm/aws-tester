@@ -13,6 +13,9 @@
      "image": "jakubmi/el-sinatra",
      "hostname": "sinatra",
      "essential": false,
+     "links": [
+       "counter"
+     ],
      "memory": 128
     },
     {
