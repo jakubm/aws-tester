@@ -13,12 +13,10 @@ services:
       - PORT=8080
       - APP_ENV=production
       - COUNTERHOST=counter
-      - COUNTERPORT=8081
+      - COUNTERPORT=8080
   counter:
     build:
       context: ./counter
-    ports:
-      - "8081:8081"
     environment:
-      - PORT=8081
+      - PORT=8080
       - APP_ENV=production
