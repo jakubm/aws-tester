@@ -2,6 +2,7 @@ require 'sinatra'
 require 'puma'
 require 'httparty'
 require 'pg'
+require 'ffaker'
 
 counterhost = ENV['COUNTERHOST']
 counterport = ENV['COUNTERPORT']
@@ -27,7 +28,7 @@ get '/' do
     output = "<pre>counter: #{counter}</pre><pre>"
 
     conn = PG.connect(host: pghost, dbname: pgdatabase, user: pguser, password: pgpassword)
-    conn.exec("insert into test_data (t) values ('Hello, World')")
+    conn.exec("insert into test_data (t) values ('#{FFaker::CheesyLingo.title}')")
     counter = 0
     conn.exec("select id, t from test_data order by id desc limit 25") do |result|
       result.each do |row|
