@@ -1,0 +1,34 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "counter",
+      "image": "jakubmi/el-counter",
+      "hostname": "counter",
+      "essential": false,
+      "memory": 128
+    },
+    {
+     "name": "sinatra",
+     "image": "jakubmi/el-sinatra",
+     "hostname": "sinatra",
+     "essential": false,
+     "memory": 128
+    },
+    {
+     "name": "proxy",
+     "image": "jakubmi/el-proxy",
+     "essential": true,
+     "portMappings": [
+       {
+         "hostPort": 80,
+         "containerPort": 80
+       }
+     ],
+     "links": [
+       "sinatra"
+     ],
+     "memory": 128
+   }
+  ]
+}

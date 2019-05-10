@@ -1,0 +1,33 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t jakubmi/el-sinatra -f ./sinatra
+
+script:
+  - docker run jakubmi/el-sinatra bundle exec rspec -fd
+
+after_success:
+  - docker build -t jakubmi/el-sinatra ./sinatra
+  - docker build -t jakubmi/el-counter ./counter
+  - docker build -t jakubmi/el-proxy ./proxy
+
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  - docker push jakubmi/el-sinatra
+  - docker push jakubmi/el-counter
+  - docker push jakubmi/el-proxy
+  
+# deploy:
+#   provider: elasticbeanstalk
+#   region: eu-central-1
+#   app: multi-docker
+#   env: MultiDocker-env
+#   bucket_name: elasticbeanstalk-eu-central-1-745902611177
+#   bucket_path: docker-multi
+#   on:
+#     branch: master
+#   access_key_id: $AWS_ACCESS_KEY
+#   secret_access_key:
+#     secure: $AWS_SECRET_KEY
