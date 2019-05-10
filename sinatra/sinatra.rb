@@ -18,19 +18,23 @@ conn.exec("create table if not exists test_data (id bigserial, t text)")
 conn.close
 
 get '/' do
-  counter = HTTParty.get("http://#{counterhost}:#{counterport}/").body
-  output = "<pre>counter: #{counter}</pre><pre>"
+  begin
+    counter = HTTParty.get("http://#{counterhost}:#{counterport}/").body
+    output = "<pre>counter: #{counter}</pre><pre>"
 
-  conn = PG.connect(host: pghost, dbname: pgdatabase, user: pguser, password: pgpassword)
-  conn.exec("insert into test_data (t) values ('Hello, World')")
-  counter = 0
-  conn.exec("select id, t from test_data order by id desc limit 25") do |result|
-    result.each do |row|
-      counter += 1
-      output += "#{counter}  %-7d %s\n" % row.values_at('id', 't')
+    conn = PG.connect(host: pghost, dbname: pgdatabase, user: pguser, password: pgpassword)
+    conn.exec("insert into test_data (t) values ('Hello, World')")
+    counter = 0
+    conn.exec("select id, t from test_data order by id desc limit 25") do |result|
+      result.each do |row|
+        counter += 1
+        output += "#{counter}  %-7d %s\n" % row.values_at('id', 't')
+      end
     end
-  end
-  conn.close
+    conn.close
 
-  output + "</pre>"
+    return output + "</pre>"
+  rescue StandardError => e
+    return e.to_s
+  end
 end
