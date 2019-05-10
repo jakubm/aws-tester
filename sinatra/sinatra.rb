@@ -13,9 +13,13 @@ pgpassword = ENV['PGPASSWORD']
 
 set :port, ENV['PORT']
 
-conn = PG.connect(host: pghost, dbname: pgdatabase, user: pguser, password: pgpassword)
-conn.exec("create table if not exists test_data (id bigserial, t text)")
-conn.close
+begin
+  conn = PG.connect(host: pghost, dbname: pgdatabase, user: pguser, password: pgpassword)
+  conn.exec("create table if not exists test_data (id bigserial, t text)")
+  conn.close
+rescue StandardError => e
+  puts e
+end
 
 get '/' do
   begin
