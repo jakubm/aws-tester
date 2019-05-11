@@ -1,5 +1,9 @@
 version: '3'
 services:
+  db:
+    image: postgres
+  redis:
+    image: redis
   proxy:
     restart: always
     build:
@@ -10,10 +14,10 @@ services:
     build:
       context: ./sinatra
     environment:
-      - PGHOST=192.168.100.166
+      - PGHOST=db
       - PGDATABASE=postgres
-      - PGUSER=jakub
-      - PGPASSWORD=password
+      - PGUSER=postgres
+      - PGPASSWORD=postgrespassword
       - PORT=8080
       - APP_ENV=production
       - COUNTERHOST=counter
@@ -24,3 +28,4 @@ services:
     environment:
       - PORT=8080
       - APP_ENV=production
+      - REDISHOST=redis
