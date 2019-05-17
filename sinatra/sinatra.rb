@@ -28,7 +28,7 @@ get '/' do
     output = "<pre>counter: #{counter}</pre><pre>"
 
     conn = PG.connect(host: pghost, dbname: pgdatabase, user: pguser, password: pgpassword)
-    conn.exec("insert into test_data (t) values ('#{FFaker::Lorem.phrase}')")
+    conn.exec("insert into test_data (t) values ('#{FFaker::Name.name_with_prefix}')")
     counter = 0
     conn.exec("select id, t from test_data order by id desc limit 25") do |result|
       result.each do |row|
